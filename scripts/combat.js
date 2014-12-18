@@ -64,11 +64,11 @@ function skill(name, hitChance, minDamage, maxDamage, speed, damageType, critCha
 }
 
 //Skills, need to be divided by attribute/progression and organized later on
-var fireball = new skill("Fireball", 95, 1, 2, 2000, "fire", 25, 200);
-var frostbolt = new skill("Frostbolt", 90, 1, 2, 1500, "frost", 20, 250);
-var lightningBolt = new skill("Lightning Bolt", 80, 1, 2, 2500, "nature", 5, 500);
-var slash = new skill("Slash", 100, 1, 2, 500, "physical", 40, 150);
-var bash = new skill("Bash", 60, 1, 2, 4000, "physical", 10, 120);
+var fireball = new skill("Fireball", 95, 1, 3, 2000, "fire", 25, 200);
+var frostbolt = new skill("Frostbolt", 90, 1, 3, 1500, "frost", 20, 250);
+var lightningBolt = new skill("Lightning Bolt", 80, 1, 3, 2500, "nature", 5, 500);
+var slash = new skill("Slash", 100, 1, 3, 500, "physical", 40, 150);
+var bash = new skill("Bash", 60, 1, 3, 4000, "physical", 10, 120);
 
 function load() {
 	document.getElementById("player_maxhp").textContent = player.maxhp;
