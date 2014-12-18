@@ -37,8 +37,8 @@ var luck = new attribute("Luck", 1, 0, 100);
 
 //Create player combat entity
 var player = {
-	maxhp: ((constitution.level * 2) + 10),
-	currenthp: ((constitution.level * 2) + 10)
+	maxhp: ((constitution.level * 2) + 30),
+	currenthp: ((constitution.level * 2) + 30)
 };
 
 var enemy = {
