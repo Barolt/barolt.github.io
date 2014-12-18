@@ -94,6 +94,8 @@ function combat(target) {
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	skills();
 	enemyhit();
+	clearTimeout(enemyTimer);
+	clearTimeout(combatTimer);
 }
 
 function enemyhit() {
