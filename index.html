@@ -1,0 +1,21 @@
+<html>
+<script src="scripts/combat.js"></script>
+<script src="scripts/items.js"></script>
+<script src="scripts/enemy.js"></script>
+<link rel="stylesheet" type="text/css" href="css/simplegrid.css">
+<body onload="load()">
+<div class="grid">
+	<div class="col-1-2">
+		<button onClick="forest.spawnMonster()">Button</button>
+		</br>
+		<button onClick="clearTimeout(combatTimer)">Stop</button>
+		</br>
+		</br>
+		<span id="player_currenthp"></span>/<span id="player_maxhp"></span> Player HP
+		</br>
+		<span id="enemy_currenthp"></span>/<span id="enemy_maxhp"></span> <span id="enemy_name"></span> HP
+	</div>
+	<div class="col-1-2">
+		<span id="combat_log"></span>
+</body>
+</html>
