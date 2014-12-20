@@ -40,7 +40,7 @@ function equip(weapon) {
 	player.currentweapon = weapon;
 	weapon.hitChance = (80 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 100)));
 	if (weapon.hitChance >= 100) {
-		weapon.hitChance = 100);
+		weapon.hitChance = 100;
 	}
 	weapon.critChance = (5 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 50)));
 	if (weapon.critChance >= 100) {
