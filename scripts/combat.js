@@ -25,7 +25,7 @@ function updateAttributes() {
 	document.getElementById("luck").innerHTML = luck.level + " Luck </br>" + luck.exp + "/" + luck.exptolevel;
 	document.getElementById("axe").innerHTML = axe.level + " Axe </br>" + axe.exp + "/" + axe.exptolevel;
 	document.getElementById("bow").innerHTML = bow.level + " Bow </br>" + bow.exp + "/" + bow.exptolevel;
-	document.getElementById("sword").innerHTML = sword.level + " Sword </br>" + sword.exp + "/" + strength.exptolevel;
+	document.getElementById("sword").innerHTML = sword.level + " Sword </br>" + sword.exp + "/" + sword.exptolevel;
 	document.getElementById("staff").innerHTML = staff.level + " Staff </br>" + staff.exp + "/" + staff.exptolevel;
 	document.getElementById("mace").innerHTML = mace.level + " Mace </br>" + mace.exp + "/" + mace.exptolevel;
 	document.getElementById("dagger").innerHTML = dagger.level + " Dagger </br>" + dagger.exp + "/" + dagger.exptolevel;
