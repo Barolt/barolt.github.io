@@ -1,21 +1,76 @@
 <html>
-<script src="scripts/combat.js"></script>
 <script src="scripts/items.js"></script>
 <script src="scripts/enemy.js"></script>
+<script src="scripts/skills.js"></script>
+<script src="scripts/combat.js"></script>
 <link rel="stylesheet" type="text/css" href="css/simplegrid.css">
 <body onload="load()">
 <div class="grid">
-	<div class="col-1-2">
+	<div class="col-1-3">
+		<span id="strength"></span>
+		</br>
+		<span id="agility"></span>
+		</br>
+		<span id="dexterity"></span>
+		</br>
+		<span id="constitution"></span>
+		</br>
+		<span id="intelligence"></span>
+		</br>
+		<span id="wisdom"></span>
+		</br>
+		<span id="cunning"></span>
+		</br>
+		<span id="luck"></span>
+		</br></br></br>
+		<span id="axe"></span>
+		</br>
+		<span id="bow"></span>
+		</br>
+		<span id="sword"></span>
+		</br>
+		<span id="staff"></span>
+		</br>
+		<span id="mace"></span>
+		</br>
+		<span id="dagger"></span>
+		</br>
+		<span id="player_skills"></span>
+	</div>
+	<div class="col-1-3">
 		<button onClick="forest.spawnMonster()">Button</button>
 		</br>
+		</br>
 		<button onClick="clearTimeout(combatTimer)">Stop</button>
+		</br>
+		</br>
+		<button onClick="equip(axe)">Equip Axe</button>
+		</br>
+		</br>
+		<button onClick="equip(bow)">Equip Bow</button>
+		</br>
+		</br>
+		<button onClick="equip(sword)">Equip Sword</button>
+		</br>
+		</br>
+		<button onClick="equip(staff)">Equip Staff</button>
+		</br>
+		</br>
+		<button onClick="equip(mace)">Equip Mace</button>
+		</br>
+		</br>
+		<button onClick="equip(dagger)">Equip Dagger</button>
 		</br>
 		</br>
 		<span id="player_currenthp"></span>/<span id="player_maxhp"></span> Player HP
 		</br>
 		<span id="enemy_currenthp"></span>/<span id="enemy_maxhp"></span> <span id="enemy_name"></span> HP
+		</br>
+		</br>
+		<span id="combat_stats"></span>
 	</div>
-	<div class="col-1-2">
+	<div class="col-1-3">
 		<span id="combat_log"></span>
+	</div>
 </body>
 </html>

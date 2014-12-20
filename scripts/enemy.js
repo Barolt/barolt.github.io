@@ -10,10 +10,10 @@ var monster = function(name, minhp, maxhp, mindmg, maxdmg) {
 	this.maxdmg = maxdmg;
 }
 
-var greyWolf = new monster("Grey Wolf", 4, 6, 2, 4);
-var brownBear = new monster("Brown Bear", 8, 10, 5, 7);
-var wildBoar = new monster("Wild Boar", 3, 5, 6, 8);
-var brownBearCub = new monster("Brown Bear Cub", 2, 4, 3, 5);
+var greyWolf = new monster("Grey Wolf", 4, 6, 1, 3);
+var brownBear = new monster("Brown Bear", 8, 10, 1, 4);
+var wildBoar = new monster("Wild Boar", 3, 5, 2, 4);
+var brownBearCub = new monster("Brown Bear Cub", 2, 4, 1, 2);
 
 var forestMobList = ["greyWolf", "brownBear", "wildBoar", "brownBearCub"];
 
@@ -22,6 +22,8 @@ function zone(name, isUnlocked) {
 	this.isUnlocked = isUnlocked;
 	this.spawnMonster = function() {
 		if (this.name = ("Forest")) {
+			clearTimeout(combatTimer);
+			clearInterval(enemyTimer);
 			mobCount = (forestMobList.length - 1);
 			mobRoll = Math.floor((Math.random() * mobCount) + 1);
 			switch (mobRoll) {

@@ -11,34 +11,32 @@ var combatlog9 = "";
 var combatlog10 = "";
 
 var hpRoll = 0;
-var damage = 0;
-var hitRoll = 0;
-var critRoll = 0;
 var skillRoll = 0;
 var enemydamage = 0;
 
-//Function for creating attributes
-function attribute(name, level, exp, exptolevel) {
-	this.name = name;
-	this.level = level;
-	this.exp = exp;
-	this.exptolevel = exptolevel;
+function updateAttributes() {
+	document.getElementById("strength").innerHTML = strength.level + " Strength </br>" + strength.exp + "/" + strength.exptolevel;
+	document.getElementById("agility").innerHTML = agility.level + " Agility </br>" + agility.exp + "/" + agility.exptolevel;
+	document.getElementById("dexterity").innerHTML = dexterity.level + " Dexterity </br>" + dexterity.exp + "/" + dexterity.exptolevel;
+	document.getElementById("constitution").innerHTML = constitution.level + " Constitution </br>" + constitution.exp + "/" + constitution.exptolevel;
+	document.getElementById("intelligence").innerHTML = intelligence.level + " Intelligence </br>" + intelligence.exp + "/" + intelligence.exptolevel;
+	document.getElementById("wisdom").innerHTML = wisdom.level + " Wisdom </br>" + wisdom.exp + "/" + wisdom.exptolevel;
+	document.getElementById("cunning").innerHTML = cunning.level + " Cunning </br>" + cunning.exp + "/" + cunning.exptolevel;
+	document.getElementById("luck").innerHTML = luck.level + " Luck </br>" + luck.exp + "/" + luck.exptolevel;
+	document.getElementById("axe").innerHTML = axe.level + " Axe </br>" + axe.exp + "/" + axe.exptolevel;
+	document.getElementById("bow").innerHTML = bow.level + " Bow </br>" + bow.exp + "/" + bow.exptolevel;
+	document.getElementById("sword").innerHTML = sword.level + " Sword </br>" + sword.exp + "/" + strength.exptolevel;
+	document.getElementById("staff").innerHTML = staff.level + " Staff </br>" + staff.exp + "/" + staff.exptolevel;
+	document.getElementById("mace").innerHTML = mace.level + " Mace </br>" + mace.exp + "/" + mace.exptolevel;
+	document.getElementById("dagger").innerHTML = dagger.level + " Dagger </br>" + dagger.exp + "/" + dagger.exptolevel;
+	document.getElementById("combat_stats").innerHTML = player.currentweapon.hitChance + "% Hit Chance</br>" + player.currentweapon.critChance + "% Crit Chance</br>" + player.currentweapon.minDamage + " - " + player.currentweapon.maxDamage + " damage</br>";
 }
-
-//Attributes for player
-var strength = new attribute("Strength", 1, 0, 100);
-var agility = new attribute("Agility", 1, 0, 100);
-var dexterity = new attribute("Dexterity", 1, 0, 100);
-var constitution = new attribute("Constitution", 1, 0, 100);
-var intelligence = new attribute("Intelligence", 1, 0, 100);
-var wisdom = new attribute("Wisdom", 1, 0, 100);
-var cunning = new attribute("Cunning", 1, 0, 100);
-var luck = new attribute("Luck", 1, 0, 100);
 
 //Create player combat entity
 var player = {
 	maxhp: ((constitution.level * 2) + 30),
-	currenthp: ((constitution.level * 2) + 30)
+	currenthp: ((constitution.level * 2) + 30),
+	currentweapon: axe,
 };
 
 var enemy = {
@@ -51,30 +49,28 @@ var enemy = {
 	blockAmount: 0
 }
 
-//Function for creating skills
-function skill(name, hitChance, minDamage, maxDamage, speed, damageType, critChance, critDamage) {
-	this.name = name;
-	this.hitChance = hitChance;
-	this.minDamage = minDamage;
-	this.maxDamage = maxDamage;
-	this.speed = speed;
-	this.damageType = damageType;
-	this.critDamage = critDamage;
-	this.critChance = critChance;
-}
-
-//Skills, need to be divided by attribute/progression and organized later on
-var fireball = new skill("Fireball", 95, 1, 3, 2000, "fire", 25, 200);
-var frostbolt = new skill("Frostbolt", 90, 1, 3, 1500, "frost", 20, 250);
-var lightningBolt = new skill("Lightning Bolt", 80, 1, 3, 2500, "nature", 5, 500);
-var slash = new skill("Slash", 100, 1, 3, 500, "physical", 40, 150);
-var bash = new skill("Bash", 60, 1, 3, 4000, "physical", 10, 120);
-
 function load() {
 	document.getElementById("player_maxhp").textContent = player.maxhp;
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	document.getElementById("enemy_maxhp").textContent = combat.maxhp;
 	document.getElementById("enemy_currenthp").textContent = combat.currenthp;
+	updateAttributes();
+}
+
+function enemyhit() {
+	enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
+	player.currenthp = player.currenthp - enemydamage;
+	logCombat(enemy.name + " hit you for " + enemydamage + ".");
+	if (player.currenthp <= 0) {
+		player.currenthp = 0;
+		clearTimeout(combatTimer);
+		clearTimeout(enemyTimer);
+		logCombat("You have died.");
+	}
+	/*else {
+		enemyTimer = setTimeout(enemyhit, 2000);
+	}*/
+	document.getElementById("player_currenthp").textContent = player.currenthp;
 }
 
 //Main combat function for determining skill in use, needs to be rolled into skill system later on
@@ -92,82 +88,8 @@ function combat(target) {
 	document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	player.currenthp = player.maxhp;
 	document.getElementById("player_currenthp").textContent = player.currenthp;
-	skills();
-	enemyhit();
-	clearTimeout(enemyTimer);
-	clearTimeout(combatTimer);
-}
-
-function enemyhit() {
-	enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
-	player.currenthp = player.currenthp - enemydamage;
-	logCombat(enemy.name + " hit you for " + enemydamage + ".");
-	if (player.currenthp <= 0) {
-		player.currenthp = 0;
-		clearTimeout(combatTimer);
-		clearTimeout(enemyTimer);
-		logCombat("You have died.");
-	}
-	else {
-		enemyTimer = setTimeout(enemyhit, 2000);
-	}
-	document.getElementById("player_currenthp").textContent = player.currenthp;
-}
-
-function skills() {
-    skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll <= 20) {
-			hit(fireball);
-		}
-		else if (skillRoll <= 40) {
-			hit(frostbolt);
-		}
-		else if (skillRoll <= 60) {
-			hit(lightningBolt);
-		}
-		else if (skillRoll <= 80) {
-			hit(slash);
-		}
-		else {
-			hit(bash);
-		}
-}
-
-//Combat resolution function, will pass result into enemy function for resolution of damage to enemy's hp later on.
-function hit(skill) {
-	combatTimer = setTimeout(skills, skill.speed);
-	hitRoll = Math.floor((Math.random() * 100) + 1);
-    if (hitRoll <= (100 - skill.hitChance)) {
-		logCombat("Your " + skill.name + " missed.");
-    }
-	else {
-		damage = (Math.floor(Math.random() * (skill.maxDamage - skill.minDamage + 1)) + skill.minDamage);
-		critRoll = Math.floor((Math.random() * 100) + 1);
-		if (critRoll <= (100 - skill.critChance)) {
-			blockRoll = Math.floor((Math.random() * 100) + 1);
-			if (blockRoll <= (100 - enemy.blockChance)) {
-				logCombat("Your " + skill.name + " hit for " + damage + " " + skill.damageType + " damage.");
-				resolveDamage(damage);
-			}
-			else {
-				logCombat("Your " + skill.name + " hit for " + (damage - enemy.blockAmount) + " " + skill.damageType + " damage. (" + enemy.blockAmount + " blocked.)");
-				resolveDamage((damage - enemy.blockAmount));
-			}
-		}
-		else {
-			damage = Math.floor(damage * (skill.critDamage/100));
-			blockRoll = Math.floor((Math.random() * 100) + 1);
-			if (blockRoll <= (100 - enemy.blockChance)) {
-				logCombat("Your " + skill.name + " crit for " + damage + " " + skill.damageType + " damage.");
-				resolveDamage(damage);
-			}
-			else {
-				logCombat("Your " + skill.name + " crit for " + (damage - enemy.blockAmount) + " " + skill.damageType + " damage. (" + enemy.blockAmount + " blocked.)");
-				resolveDamage((damage - enemy.blockAmount));
-			}
-		}
-	}
-	document.getElementById("player_currenthp").textContent = player.currenthp;
+	player.currentweapon.hit();
+	enemyTimer = setInterval(enemyhit, 2000);
 }
 
 function resolveDamage(impact) {
@@ -176,8 +98,8 @@ function resolveDamage(impact) {
 		enemy.currenthp = 0;
 		logCombat(enemy.name + " has died.");
 		clearTimeout(combatTimer);
-		clearTimeout(enemyTimer);
-		forest.spawnMonster();
+		clearInterval(enemyTimer);
+		spawnTimer = setTimeout(forest.spawnMonster, player.currentweapon.speed);
 		document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	}
 	else {
