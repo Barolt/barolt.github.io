@@ -16,10 +16,7 @@ function attribute(name, level, exp, exptolevel) {
 			this.exp = 0;
 			this.exptolevel = (Math.floor(this.exptolevel * 1.04));
 			this.level++;
-			player.currentweapon.hitChance = (80 + (Math.floor(player.currentweapon.attrib.level / 100)) + (Math.floor(player.currentweapon.level / 100)));
-			player.currentweapon.critChance = (5 + (Math.floor(player.currentweapon.attrib.level / 100)) + (Math.floor(player.currentweapon.level / 50)));
-			player.currentweapon.minDamage = Math.floor((1 + (player.currentweapon.attrib.level / 5) + (player.currentweapon.level / 2)) * (player.currentweapon.speed / 1000));
-			player.currentweapon.maxDamage = Math.floor((2 + (player.currentweapon.attrib.level / 5) + (player.currentweapon.level / 2)) * (player.currentweapon.speed / 1000));
+			equip(player.currentweapon);
 			updateAttributes();
 		}
 	}
@@ -41,7 +38,10 @@ function equip(weapon) {
 	clearInterval(enemyTimer);
 	weapon.hitChance = (80 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 100)));
 	weapon.critChance = (5 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 50)));
-	weapon.minDamage = Math.floor((1 + (weapon.attrib.level / 5) + (weapon.level / 2)) * (weapon.speed / 1000));
+	if (weapon.critChance >= 100) {
+		weapon.critChance = 100)
+	}
+	weapon.minDamage = Math.floor((1 + (weapon.attrib.level / 10) + (weapon.level / 4)) * (weapon.speed / 1000));
 	weapon.maxDamage = Math.floor((2 + (weapon.attrib.level / 5) + (weapon.level / 2)) * (weapon.speed / 1000));
 	updateAttributes();
 }
@@ -56,7 +56,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.exptolevel = exptolevel;
 	this.hitChance = (80 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 100)));
 	this.critChance = (5 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 50)));
-	this.minDamage = Math.floor((1 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
+	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4)) * (this.speed / 1000));
 	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
 	this.gainexp = function() {
 		this.exp++;
@@ -64,10 +64,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 			this.exp = 0;
 			this.exptolevel = (Math.floor(this.exptolevel * 1.02));
 			this.level++;
-			this.hitChance = (80 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 100)));
-			this.critChance = (5 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 50)));
-			this.minDamage = Math.floor((1 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
-			this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
+			equip(player.currentweapon);
 			updateAttributes();
 		}
 	}
