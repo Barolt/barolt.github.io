@@ -14,7 +14,7 @@ function attribute(name, level, exp, exptolevel) {
 		this.exp++;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel * 1.04));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.20));
 			this.level++;
 			equip(player.currentweapon);
 			updateAttributes();
@@ -39,7 +39,7 @@ function equip(weapon) {
 	weapon.hitChance = (80 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 100)));
 	weapon.critChance = (5 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 50)));
 	if (weapon.critChance >= 100) {
-		weapon.critChance = 100)
+		weapon.critChance = 100;
 	}
 	weapon.minDamage = Math.floor((1 + (weapon.attrib.level / 10) + (weapon.level / 4)) * (weapon.speed / 1000));
 	weapon.maxDamage = Math.floor((2 + (weapon.attrib.level / 5) + (weapon.level / 2)) * (weapon.speed / 1000));
@@ -62,7 +62,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 		this.exp++;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel * 1.02));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.15));
 			this.level++;
 			equip(player.currentweapon);
 			updateAttributes();
