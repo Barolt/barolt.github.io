@@ -33,9 +33,11 @@ var cunning = new attribute("Cunning", 1, 0, 100);
 var luck = new attribute("Luck", 1, 0, 100);
 
 function equip(weapon) {
+	if (player.currentweapon != weapon) {
+		clearTimeout(combatTimer);
+		clearInterval(enemyTimer);
+	}
 	player.currentweapon = weapon;
-	clearTimeout(combatTimer);
-	clearInterval(enemyTimer);
 	weapon.hitChance = (80 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 100)));
 	weapon.critChance = (5 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 50)));
 	if (weapon.critChance >= 100) {
