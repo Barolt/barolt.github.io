@@ -21,6 +21,7 @@ function zone(name, isUnlocked) {
 	this.name = name;
 	this.isUnlocked = isUnlocked;
 	this.spawnMonster = function() {
+		logCombat("");
 		if (this.name = ("Forest")) {
 			clearTimeout(combatTimer);
 			clearInterval(enemyTimer);

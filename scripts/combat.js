@@ -60,12 +60,12 @@ function load() {
 function enemyhit() {
 	enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
 	player.currenthp = player.currenthp - enemydamage;
-	logCombat(enemy.name + " hit you for " + enemydamage + ".");
+	logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".</font>");
 	if (player.currenthp <= 0) {
 		player.currenthp = 0;
 		clearTimeout(combatTimer);
 		clearTimeout(enemyTimer);
-		logCombat("You have died.");
+		logCombat("<font color=red>You have died.</font>");
 	}
 	/*else {
 		enemyTimer = setTimeout(enemyhit, 2000);
@@ -96,7 +96,7 @@ function resolveDamage(impact) {
 	enemy.currenthp = (enemy.currenthp - impact);
 	if (enemy.currenthp <= 0) {
 		enemy.currenthp = 0;
-		logCombat(enemy.name + " has died.");
+		logCombat("<font color=red>" + enemy.name + " has died.</font>");
 		clearTimeout(combatTimer);
 		clearInterval(enemyTimer);
 		spawnTimer = setTimeout(forest.spawnMonster, player.currentweapon.speed);

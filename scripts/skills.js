@@ -87,11 +87,11 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 			if (critRoll <= (100 - player.currentweapon.critChance)) {
 				blockRoll = Math.floor((Math.random() * 100) + 1);
 				if (blockRoll <= (100 - enemy.blockChance)) {
-					logCombat("Your " + player.currentweapon.name + " hit for " + damage + " damage.");
+					logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + damage + " damage.</font>");
 					resolveDamage(damage);
 				}
 				else {
-					logCombat("Your " + player.currentweapon.name + " hit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)");
+					logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
 					resolveDamage((damage - enemy.blockAmount));
 				}
 			}
@@ -99,11 +99,11 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 				damage = (damage * 2);
 				blockRoll = Math.floor((Math.random() * 100) + 1);
 				if (blockRoll <= (100 - enemy.blockChance)) {
-					logCombat("Your " + player.currentweapon.name + " crit for " + damage + " damage.");
+					logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + damage + " damage.</font>");
 					resolveDamage(damage);
 				}
 				else {
-					logCombat("Your " + player.currentweapon.name + " crit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)");
+					logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
 					resolveDamage((damage - enemy.blockAmount));
 				}
 			}
