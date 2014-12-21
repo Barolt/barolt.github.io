@@ -146,7 +146,7 @@ function passive(name, attrib, level, exp, exptolevel) {
 }
 
 var dodge = new passive("Dodge", agility, 1, 0, 100);
-var parry = new passive("Parry", agility, 1, 0, 100);
+var parry = new passive("Parry", strength, 1, 0, 100);
 
 //Function for creating skills
 function skill(name, hitChance, minDamage, maxDamage, speed, damageType, critChance, critDamage) {
