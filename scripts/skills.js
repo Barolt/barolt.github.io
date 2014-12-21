@@ -46,9 +46,9 @@ function equip(weapon) {
 	if (weapon.hitChance >= 100) {
 		weapon.hitChance = 100;
 	}
-	weapon.critChance = (5 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 50)));
-	if (weapon.critChance >= 100) {
-		weapon.critChance = 100;
+	weapon.critChance = ((50 + (Math.floor(luck.level / 3)) + (Math.floor(weapon.level / 50))) /10);
+	if (weapon.critChance >= 65) {
+		weapon.critChance = 65;
 	}
 	weapon.minDamage = Math.floor((1 + (weapon.attrib.level / 10) + (weapon.level / 4)) * (weapon.speed / 1000));
 	weapon.maxDamage = Math.floor((2 + (weapon.attrib.level / 5) + (weapon.level / 2)) * (weapon.speed / 1000));
@@ -64,7 +64,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.exp = exp;
 	this.exptolevel = exptolevel;
 	this.hitChance = (80 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 100)));
-	this.critChance = (5 + (Math.floor(luck.level / 30)) + (Math.floor(this.level / 50)));
+	this.critChance = ((50 + (Math.floor(luck.level / 3)) + (Math.floor(this.level / 5))) / 10);
 	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4)) * (this.speed / 1000));
 	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
 	this.gainexp = function() {
@@ -80,7 +80,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.hit = function() {
 		combatTimer = setTimeout(player.currentweapon.hit, player.currentweapon.speed);
 		hitRoll = Math.floor((Math.random() * 100) + 1);
-		critRoll = Math.floor((Math.random() * 100) + 1);
+		critRoll = (Math.floor((Math.random() * 1000) +10) / 10);
 		if (hitRoll <= (100 - player.currentweapon.hitChance)) {
 			logCombat("Your " + player.currentweapon.name + " missed.");
 		}

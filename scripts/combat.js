@@ -68,7 +68,13 @@ function updateSecondarystats() {
 	player.maxhp = ((constitution.level * 2) + 10);
 	player.currenthp = ((constitution.level * 2) + 10);
 	player.dodgeChance = (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10);
+	if (player.dodgeChance >= 45) {
+		player.dodgeChance = 45;
+	}
 	player.parryChance = (Math.floor(50 + (strength.level / 8) + (parry.level / 4)) / 10);
+	if (player.parryChance >= 45) {
+		player.parryChance = 45;
+	}
 	document.getElementById("avoidance").innerHTML = player.dodgeChance + "% Dodge Chance</br>" + player.parryChance + "% Parry Chance</br>";
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	document.getElementById("player_maxhp").textContent = player.maxhp;
