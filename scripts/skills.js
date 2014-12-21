@@ -64,7 +64,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.exp = exp;
 	this.exptolevel = exptolevel;
 	this.hitChance = (80 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 100)));
-	this.critChance = (5 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 50)));
+	this.critChance = (5 + (Math.floor(luck.level / 30)) + (Math.floor(this.level / 50)));
 	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4)) * (this.speed / 1000));
 	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
 	this.gainexp = function() {
@@ -100,6 +100,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 				}
 			}
 			else {
+				luck.gainexp();
 				damage = (damage * 2);
 				blockRoll = Math.floor((Math.random() * 100) + 1);
 				if (blockRoll <= (100 - enemy.blockChance)) {

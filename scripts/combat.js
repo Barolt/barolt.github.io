@@ -60,16 +60,18 @@ function updateAttributes() {
 	document.getElementById("mace").innerHTML = mace.level + " Mace </br>" + mace.exp + "/" + mace.exptolevel;
 	document.getElementById("dagger").innerHTML = dagger.level + " Dagger </br>" + dagger.exp + "/" + dagger.exptolevel;
 	document.getElementById("dodge").innerHTML = dodge.level + " Dodge </br>" + dodge.exp + "/" + dodge.exptolevel;
-	document.getElementById("dagger").innerHTML = parry.level + " Parry </br>" + parry.exp + "/" + parry.exptolevel;
+	document.getElementById("parry").innerHTML = parry.level + " Parry </br>" + parry.exp + "/" + parry.exptolevel;
 	document.getElementById("combat_stats").innerHTML = player.currentweapon.hitChance + "% Hit Chance</br>" + player.currentweapon.critChance + "% Crit Chance</br>" + player.currentweapon.minDamage + " - " + player.currentweapon.maxDamage + " damage</br>";
 }
 
 function updateSecondarystats() {
-	maxhp = ((constitution.level * 2) + 10),
-	currenthp = ((constitution.level * 2) + 10),
+	player.maxhp = ((constitution.level * 2) + 10);
+	player.currenthp = ((constitution.level * 2) + 10);
 	player.dodgeChance = (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10);
 	player.parryChance = (Math.floor(50 + (strength.level / 8) + (parry.level / 4)) / 10);
 	document.getElementById("avoidance").innerHTML = player.dodgeChance + "% Dodge Chance</br>" + player.parryChance + "% Parry Chance</br>";
+	document.getElementById("player_currenthp").textContent = player.currenthp;
+	document.getElementById("player_maxhp").textContent = player.maxhp;
 }
 
 function load() {

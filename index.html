@@ -36,6 +36,7 @@
 		</br>
 		<span id="dagger"></span>
 		</br>
+		</br>
 		<span id="dodge"></span>
 		</br>
 		<span id="parry"></span>
@@ -43,10 +44,11 @@
 		<span id="player_skills"></span>
 	</div>
 	<div class="col-1-4">
-		<button onClick="forest.spawnMonster()">Button</button>
+		</br>
+		<button id="start" onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer); forest.spawnMonster(); this.style.display='none'">Start Combat</button>
 		</br>
 		</br>
-		<button onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer)">Stop</button>
+		<button onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer); clearTimeout(combatTimer); clearTimeout(enemyTimer); document.getElementById('start').style.display = 'block'">Stop</button>
 		</br>
 		</br>
 		<button onClick="equip(axe)">Equip Axe</button>
