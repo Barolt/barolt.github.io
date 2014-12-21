@@ -12,10 +12,10 @@ function attribute(name, level, exp, exptolevel) {
 	this.exp = exp;
 	this.exptolevel = exptolevel;
 	this.gainexp = function() {
-		this.exp++;
+		this.exp += currentzone.id;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.32));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 2.10));
 			this.level++;
 			equip(player.currentweapon);
 			maxhp: ((constitution.level * 2) + 10);
@@ -68,10 +68,10 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4)) * (this.speed / 1000));
 	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
 	this.gainexp = function() {
-		this.exp++;
+		this.exp += currentzone.id;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.12));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.60));
 			this.level++;
 			equip(player.currentweapon);
 			updateAttributes();
@@ -135,10 +135,10 @@ function passive(name, attrib, level, exp, exptolevel) {
 	this.exptolevel = exptolevel;
 	this.gainexp = function() {
 		this.attrib.gainexp();
-		this.exp++;
+		this.exp += currentzone.id;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.20));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.80));
 			this.level++;
 			updateSecondarystats();
 			updateAttributes();

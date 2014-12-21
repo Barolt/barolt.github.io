@@ -27,8 +27,8 @@ var currentzone = forest;
 
 //Create player combat entity
 var player = {
-	maxhp: ((constitution.level * 2) + 10),
-	currenthp: ((constitution.level * 2) + 10),
+	maxhp: ((constitution.level * 4) + 10),
+	currenthp: ((constitution.level * 4) + 10),
 	dodgeChance: (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10),
 	parryChance: (Math.floor(50 + (strength.level / 8) + (parry.level / 4)) / 10),
 	currentweapon: axe,
@@ -65,8 +65,8 @@ function updateAttributes() {
 }
 
 function updateSecondarystats() {
-	player.maxhp = ((constitution.level * 2) + 10);
-	player.currenthp = ((constitution.level * 2) + 10);
+	player.maxhp = ((constitution.level * 4) + 10);
+	player.currenthp = ((constitution.level * 4) + 10);
 	player.dodgeChance = (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10);
 	if (player.dodgeChance >= 45) {
 		player.dodgeChance = 45;
