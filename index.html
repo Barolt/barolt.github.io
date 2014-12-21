@@ -45,28 +45,34 @@
 	</div>
 	<div class="col-1-4">
 		</br>
-		<button id="start" onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer); forest.spawnMonster(); this.style.display='none'">Start Combat</button>
+		<button id="start" style="block" onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer); currentzone.spawnMonster(); this.style.display='none'">Start Combat</button>
 		</br>
 		</br>
 		<button onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer); clearTimeout(combatTimer); clearTimeout(enemyTimer); document.getElementById('start').style.display = 'block'">Stop</button>
 		</br>
 		</br>
-		<button onClick="equip(axe)">Equip Axe</button>
+		<button onClick="equip(axe); document.getElementById('start').style.display = 'block'">Equip Axe</button>
 		</br>
 		</br>
-		<button onClick="equip(bow)">Equip Bow</button>
+		<button onClick="equip(bow); document.getElementById('start').style.display = 'block'">Equip Bow</button>
 		</br>
 		</br>
-		<button onClick="equip(sword)">Equip Sword</button>
+		<button onClick="equip(sword); document.getElementById('start').style.display = 'block'">Equip Sword</button>
 		</br>
 		</br>
-		<button onClick="equip(staff)">Equip Staff</button>
+		<button onClick="equip(staff); document.getElementById('start').style.display = 'block'">Equip Staff</button>
 		</br>
 		</br>
-		<button onClick="equip(mace)">Equip Mace</button>
+		<button onClick="equip(mace); document.getElementById('start').style.display = 'block'">Equip Mace</button>
 		</br>
 		</br>
-		<button onClick="equip(dagger)">Equip Dagger</button>
+		<button onClick="equip(dagger); document.getElementById('start').style.display = 'block'">Equip Dagger</button>
+		</br>
+		</br>
+		<button onClick="currentzone = forest">Forest</button>
+		</br>
+		</br>
+		<button onClick="currentzone = hell">Hell</button>
 		</br>
 		</br>
 		<span id="player_currenthp"></span>/<span id="player_maxhp"></span> Player HP

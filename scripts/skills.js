@@ -78,44 +78,46 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 		}
 	}
 	this.hit = function() {
-		combatTimer = setTimeout(player.currentweapon.hit, player.currentweapon.speed);
-		hitRoll = Math.floor((Math.random() * 100) + 1);
-		critRoll = (Math.floor((Math.random() * 1000) +10) / 10);
-		if (hitRoll <= (100 - player.currentweapon.hitChance)) {
-			logCombat("Your " + player.currentweapon.name + " missed.");
-		}
-		else {
-			player.currentweapon.attrib.gainexp();
-			player.currentweapon.gainexp();
-			damage = (Math.floor(Math.random() * (player.currentweapon.maxDamage - player.currentweapon.minDamage + 1)) + player.currentweapon.minDamage);
-			if (critRoll <= (100 - player.currentweapon.critChance)) {
-				blockRoll = Math.floor((Math.random() * 100) + 1);
-				if (blockRoll <= (100 - enemy.blockChance)) {
-					logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + damage + " damage.</font>");
-					resolveDamage(damage);
-				}
-				else {
-					logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
-					resolveDamage((damage - enemy.blockAmount));
-				}
+		if (player.currenthp > 0) {
+			combatTimer = setTimeout(player.currentweapon.hit, player.currentweapon.speed);
+			hitRoll = Math.floor((Math.random() * 100) + 1);
+			critRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+			if (hitRoll <= (100 - player.currentweapon.hitChance)) {
+				logCombat("Your " + player.currentweapon.name + " missed.");
 			}
 			else {
-				luck.gainexp();
-				damage = (damage * 2);
-				blockRoll = Math.floor((Math.random() * 100) + 1);
-				if (blockRoll <= (100 - enemy.blockChance)) {
-					logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + damage + " damage.</font>");
-					resolveDamage(damage);
+				player.currentweapon.attrib.gainexp();
+				player.currentweapon.gainexp();
+				damage = (Math.floor(Math.random() * (player.currentweapon.maxDamage - player.currentweapon.minDamage + 1)) + player.currentweapon.minDamage);
+				if (critRoll <= (100 - player.currentweapon.critChance)) {
+					blockRoll = Math.floor((Math.random() * 100) + 1);
+					if (blockRoll <= (100 - enemy.blockChance)) {
+						logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + damage + " damage.</font>");
+						resolveDamage(damage);
+					}
+					else {
+						logCombat("<font color=green>Your " + player.currentweapon.name + " hit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
+						resolveDamage((damage - enemy.blockAmount));
+					}
 				}
 				else {
-					logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
-					resolveDamage((damage - enemy.blockAmount));
+					luck.gainexp();
+					damage = (damage * 2);
+					blockRoll = Math.floor((Math.random() * 100) + 1);
+					if (blockRoll <= (100 - enemy.blockChance)) {
+						logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + damage + " damage.</font>");
+						resolveDamage(damage);
+					}
+					else {
+						logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + (damage - enemy.blockAmount) + " damage. (" + enemy.blockAmount + " blocked.)</font>");
+						resolveDamage((damage - enemy.blockAmount));
+					}
 				}
 			}
-		}
-		document.getElementById("player_currenthp").textContent = player.currenthp;
-		updateAttributes();
-	};
+			document.getElementById("player_currenthp").textContent = player.currenthp;
+			updateAttributes();
+		};
+	}
 }
 
 var axe = new wskill("Axe", strength, 2300, 1, 0, 100);
