@@ -23,7 +23,7 @@ var combatlog20 = "";
 var hpRoll = 0;
 var skillRoll = 0;
 var enemydamage = 0;
-var currentzone = null;
+var currentzone = forest;
 
 //Create player combat entity
 var player = {
