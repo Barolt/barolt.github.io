@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/simplegrid.css">
 <body onload="load()">
 <div class="grid">
-	<div class="col-1-3">
+	<div class="col-1-4">
 		<span id="strength"></span>
 		</br>
 		<span id="agility"></span>
@@ -22,7 +22,8 @@
 		<span id="cunning"></span>
 		</br>
 		<span id="luck"></span>
-		</br></br></br>
+	</div>
+	<div class="col-1-4">
 		<span id="axe"></span>
 		</br>
 		<span id="bow"></span>
@@ -35,13 +36,17 @@
 		</br>
 		<span id="dagger"></span>
 		</br>
+		<span id="dodge"></span>
+		</br>
+		<span id="parry"></span>
+		</br>
 		<span id="player_skills"></span>
 	</div>
-	<div class="col-1-3">
+	<div class="col-1-4">
 		<button onClick="forest.spawnMonster()">Button</button>
 		</br>
 		</br>
-		<button onClick="clearTimeout(combatTimer)">Stop</button>
+		<button onClick="clearTimeout(combatTimer); clearTimeout(enemyTimer)">Stop</button>
 		</br>
 		</br>
 		<button onClick="equip(axe)">Equip Axe</button>
@@ -68,8 +73,10 @@
 		</br>
 		</br>
 		<span id="combat_stats"></span>
+		</br>
+		<span id="avoidance"></span>
 	</div>
-	<div class="col-1-3">
+	<div class="col-1-4">
 		<span id="combat_log"></span>
 	</div>
 </body>

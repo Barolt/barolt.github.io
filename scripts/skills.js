@@ -1,4 +1,5 @@
 var damage = 0;
+var ehitRoll = 0;
 var hitRoll = 0;
 var critRoll = 0;
 var combatTimer = 0;
@@ -14,9 +15,12 @@ function attribute(name, level, exp, exptolevel) {
 		this.exp++;
 		if (this.exp >= this.exptolevel) {
 			this.exp = 0;
-			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.22));
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.32));
 			this.level++;
 			equip(player.currentweapon);
+			maxhp: ((constitution.level * 2) + 10);
+			currenthp: ((constitution.level * 2) + 10);
+			updateSecondarystats();
 			updateAttributes();
 		}
 	}
@@ -35,7 +39,7 @@ var luck = new attribute("Luck", 1, 0, 100);
 function equip(weapon) {
 	if (player.currentweapon != weapon) {
 		clearTimeout(combatTimer);
-		clearInterval(enemyTimer);
+		clearTimeout(enemyTimer);
 	}
 	player.currentweapon = weapon;
 	weapon.hitChance = (80 + (Math.floor(weapon.attrib.level / 100)) + (Math.floor(weapon.level / 100)));
@@ -119,6 +123,29 @@ var bow = new wskill("Bow", agility, 3000, 1, 0 ,100);
 var staff = new wskill("Staff", intelligence, 2800, 1, 0, 100);
 var mace = new wskill("Mace", wisdom, 2000, 1, 0, 100);
 var dagger = new wskill("Dagger", cunning, 1000, 1, 0, 100);
+
+//Function for creating passive skills
+function passive(name, attrib, level, exp, exptolevel) {
+	this.name = name;
+	this.attrib = attrib;
+	this.level = level;
+	this.exp = exp;
+	this.exptolevel = exptolevel;
+	this.gainexp = function() {
+		this.attrib.gainexp();
+		this.exp++;
+		if (this.exp >= this.exptolevel) {
+			this.exp = 0;
+			this.exptolevel = (Math.floor(this.exptolevel + this.level * 1.20));
+			this.level++;
+			updateSecondarystats();
+			updateAttributes();
+		}
+	}
+}
+
+var dodge = new passive("Dodge", agility, 1, 0, 100);
+var parry = new passive("Parry", agility, 1, 0, 100);
 
 //Function for creating skills
 function skill(name, hitChance, minDamage, maxDamage, speed, damageType, critChance, critDamage) {
