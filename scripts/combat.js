@@ -23,7 +23,7 @@ var combatlog20 = "";
 var hpRoll = 0;
 var skillRoll = 0;
 var enemydamage = 0;
-var currentzone = forest;
+var currentzone = null;
 
 //Create player combat entity
 var player = {
@@ -90,7 +90,6 @@ function load() {
 }
 
 function enemyhit() {
-	enemyTimer = setTimeout(enemyhit, 2000);
 	ehitRoll = (Math.floor((Math.random() * 1000) +10) / 10);
 	if (ehitRoll >= 100 - player.dodgeChance) {
 		logCombat("<font color=orange>You dodged " + enemy.name + "'s attack.</font>");
@@ -107,10 +106,10 @@ function enemyhit() {
 		logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".</font>");
 		if (player.currenthp <= 0) {
 			player.currenthp = 0;
-			clearTimeout(combatTimer);
-			clearTimeout(enemyTimer);
+			clearInterval(combatTimer);
+			clearInterval(enemyTimer);
 			logCombat("<font color=red>You have died.</font>");
-			setTimeout(currentzone.spawnMonster, 5000);
+			setTimeout(currentzone.spawnMonster(currentzone), 5000);
 		}
 	}
 	document.getElementById("player_currenthp").textContent = player.currenthp;
@@ -131,8 +130,8 @@ function combat(target) {
 	document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	player.currenthp = player.maxhp;
 	document.getElementById("player_currenthp").textContent = player.currenthp;
-	enemyTimer = setTimeout(enemyhit, 1000);
-	spawnTimer = setTimeout(player.currentweapon.hit, player.currentweapon.speed);
+	enemyTimer = setInterval(enemyhit, 2000);
+	combatTimer = setInterval(player.currentweapon.hit, player.currentweapon.speed);
 }
 
 function resolveDamage(impact) {
@@ -140,9 +139,9 @@ function resolveDamage(impact) {
 	if (enemy.currenthp <= 0) {
 		enemy.currenthp = 0;
 		logCombat("<font color=red>" + enemy.name + " has died.</font>");
-		clearTimeout(combatTimer);
-		clearTimeout(enemyTimer);
-		currentzone.spawnMonster();
+		clearInterval(combatTimer);
+		clearInterval(enemyTimer);
+		currentzone.spawnMonster(currentzone);
 		document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	}
 	else {

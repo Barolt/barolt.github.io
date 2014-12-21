@@ -18,50 +18,23 @@ var cthulu = new monster("Cthulu", 100000, 120000, 300, 500);
 var diablo = new monster("Diablo", 130000, 150000, 400, 600);
 var andariel = new monster("Andariel", 80000, 90000, 250, 350);
 
-var forestMobList = ["greyWolf", "brownBear", "wildBoar", "brownBearCub"];
-var hellMobList = ["cthulu", "diablo", "andariel"];
+var mobList = [greyWolf, brownBear, wildBoar, brownBearCub, cthulu, diablo, andariel];
 
-function zone(name, isUnlocked) {
+var zone = function(name, id) {
 	this.name = name;
-	this.isUnlocked = isUnlocked;
-	this.spawnMonster = function() {
+	this.id = id;
+	this.spawnMonster = function(zname) {
+		currentzone = zname;
 		logCombat("");
-		if (this.name = ("Forest")) {
-			clearTimeout(combatTimer);
-			clearTimeout(enemyTimer);
-			mobCount = (forestMobList.length - 1);
-			mobRoll = Math.floor((Math.random() * mobCount) + 1);
-			switch (mobRoll) {
-				case 0:
-					combat(greyWolf);
-					break;
-				case 1:
-					combat(brownBear);
-					break;
-				case 2:
-					combat(wildBoar);
-					break;
-				case 3:
-					combat(brownBearCub);
-					break;
-			}
+		clearInterval(combatTimer);
+		clearInterval(enemyTimer);
+		if (currentzone.id == 1) {
+			mobRoll = (Math.floor(Math.random() * (3 - 0 + 1)) + 0);
+			combat(mobList[mobRoll]);
 		}
-		if (this.name = ("Hell")) {
-			clearTimeout(combatTimer);
-			clearTimeout(enemyTimer);
-			mobCount = (hellMobList.length - 1);
-			mobRoll = Math.floor((Math.random() * mobCount) + 1);
-			switch (mobRoll) {
-				case 0:
-					combat(cthulu);
-					break;
-				case 1:
-					combat(diablo);
-					break;
-				case 2:
-					combat(andariel);
-					break;
-			}
+		else if (currentzone.id == 2) {
+			mobRoll = (Math.floor(Math.random() * (6 - 4 + 1)) + 4);
+			combat(mobList[mobRoll]);
 		}
 	};
 }	

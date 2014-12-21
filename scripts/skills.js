@@ -79,7 +79,6 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	}
 	this.hit = function() {
 		if (player.currenthp > 0) {
-			combatTimer = setTimeout(player.currentweapon.hit, player.currentweapon.speed);
 			hitRoll = Math.floor((Math.random() * 100) + 1);
 			critRoll = (Math.floor((Math.random() * 1000) +10) / 10);
 			if (hitRoll <= (100 - player.currentweapon.hitChance)) {
