@@ -147,7 +147,7 @@ function combat(target) {
 function resolveSkill() {
 	if (player.currentweapon == axe) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 85) {
+		if (skillRoll < 85) {
 			axe.hit();
 		}
 		else if (axe.level >= 15) {
@@ -159,7 +159,7 @@ function resolveSkill() {
 	}
 	if (player.currentweapon == bow) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 75) {
+		if (skillRoll < 75) {
 			bow.hit();
 		}
 		else if (bow.level >= 15) {
@@ -171,7 +171,7 @@ function resolveSkill() {
 	}
 	if (player.currentweapon == sword) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 75) {
+		if (skillRoll < 75) {
 			sword.hit();
 		}
 		else if (sword.level >= 15) {
@@ -183,7 +183,7 @@ function resolveSkill() {
 	}
 	if (player.currentweapon == staff) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 75) {
+		if (skillRoll < 75) {
 			staff.hit();
 		}
 		else if (staff.level >= 15) {
@@ -195,7 +195,7 @@ function resolveSkill() {
 	}
 	if (player.currentweapon == mace) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 75) {
+		if (skillRoll < 75) {
 			mace.hit();
 		}
 		else if (mace.level >= 15) {
@@ -207,7 +207,7 @@ function resolveSkill() {
 	}
 	if (player.currentweapon == dagger) {
 		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll > 75) {
+		if (skillRoll < 75) {
 			dagger.hit();
 		}
 		else if (dagger.level >= 15) {
