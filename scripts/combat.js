@@ -19,6 +19,16 @@ var combatlog17 = "";
 var combatlog18 = "";
 var combatlog19 = "";
 var combatlog20 = "";
+var combatlog21 = "";
+var combatlog22 = "";
+var combatlog23 = "";
+var combatlog24 = "";
+var combatlog25 = "";
+var combatlog26 = "";
+var combatlog27 = "";
+var combatlog28 = "";
+var combatlog29 = "";
+var combatlog30 = "";
 
 var hpRoll = 0;
 var skillRoll = 0;
@@ -67,7 +77,7 @@ function updateAttributes() {
 function updateSecondarystats() {
 	player.maxhp = ((constitution.level * 4) + 10);
 	player.currenthp = ((constitution.level * 4) + 10);
-	player.dodgeChance = (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10);
+	player.dodgeChance = ((Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10) + dodgeBuff);
 	if (player.dodgeChance >= 45) {
 		player.dodgeChance = 45;
 	}
@@ -131,9 +141,84 @@ function combat(target) {
 	player.currenthp = player.maxhp;
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	enemyTimer = setInterval(enemyhit, 2000);
-	combatTimer = setInterval(player.currentweapon.hit, player.currentweapon.speed);
+	combatTimer = setInterval(resolveSkill, player.currentweapon.speed);
 }
 
+function resolveSkill() {
+	if (player.currentweapon == axe) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 85) {
+			axe.hit();
+		}
+		else if (axe.level >= 15) {
+			stunningBlow.hit(stunningBlow);
+		}
+		else {
+			axe.hit();
+		}
+	}
+	if (player.currentweapon == bow) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 75) {
+			bow.hit();
+		}
+		else if (bow.level >= 15) {
+			doubleShot.hit(doubleShot);
+		}
+		else {
+			bow.hit();
+		}
+	}
+	if (player.currentweapon == sword) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 75) {
+			sword.hit();
+		}
+		else if (sword.level >= 15) {
+			evasiveStrike.hit(evasiveStrike);
+		}
+		else {
+			sword.hit();
+		}
+	}
+	if (player.currentweapon == staff) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 75) {
+			staff.hit();
+		}
+		else if (staff.level >= 15) {
+			fireball.hit(fireball);
+		}
+		else {
+			staff.hit();
+		}
+	}
+	if (player.currentweapon == mace) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 75) {
+			mace.hit();
+		}
+		else if (mace.level >= 15) {
+			smite.hit(smite);
+		}
+		else {
+			mace.hit();
+		}
+	}
+	if (player.currentweapon == dagger) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > 75) {
+			dagger.hit();
+		}
+		else if (dagger.level >= 15) {
+			backstab.hit(backstab);
+		}
+		else {
+			dagger.hit();
+		}
+	}
+}
+	
 function resolveDamage(impact) {
 	enemy.currenthp = (enemy.currenthp - impact);
 	if (enemy.currenthp <= 0) {
@@ -147,6 +232,16 @@ function resolveDamage(impact) {
 	else {
 		document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	}
+}
+
+function startEnemy() {
+	clearInterval(enemyTimer);
+	enemyTimer = setInterval(enemyhit, 2000);
+}
+
+function stunEnemy(time) {
+	clearInterval(enemyTimer);
+	stunTimer = setTimeout(startEnemy, time);
 }
 
 //Generates combat log, needs to be rewritten
@@ -170,8 +265,18 @@ function logCombat(lastevent) {
 	combatlog17 = combatlog18;
 	combatlog18 = combatlog19;
 	combatlog19 = combatlog20;
-	combatlog20 = lastevent;
-	document.getElementById("combat_log").innerHTML = combatlog1 + "<br />" + combatlog2 +  "<br />" + combatlog3 +  "<br />" + combatlog4 +  "<br />" + combatlog5 +  "<br />" + combatlog6 +  "<br />" + combatlog7 +  "<br />" + combatlog8 +  "<br />" + combatlog9 +  "<br />" + combatlog10 + "<br />" + combatlog11 + "<br />" + combatlog12 + "<br />" + combatlog13 + "<br />" + combatlog14 + "<br />" + combatlog15 + "<br />" + combatlog16 + "<br />" + combatlog17 + "<br />" + combatlog18 + "<br />" + combatlog19 + "<br />" + combatlog20;
+	combatlog20 = combatlog21;
+	combatlog21 = combatlog22;
+	combatlog22 = combatlog23;
+	combatlog23 = combatlog24;
+	combatlog24 = combatlog25;
+	combatlog25 = combatlog26;
+	combatlog26 = combatlog27;
+	combatlog27 = combatlog28;
+	combatlog28 = combatlog29;
+	combatlog29 = combatlog30;
+	combatlog30 = lastevent;
+	document.getElementById("combat_log").innerHTML = combatlog1 + "<br />" + combatlog2 +  "<br />" + combatlog3 +  "<br />" + combatlog4 +  "<br />" + combatlog5 +  "<br />" + combatlog6 +  "<br />" + combatlog7 +  "<br />" + combatlog8 +  "<br />" + combatlog9 +  "<br />" + combatlog10 + "<br />" + combatlog11 + "<br />" + combatlog12 + "<br />" + combatlog13 + "<br />" + combatlog14 + "<br />" + combatlog15 + "<br />" + combatlog16 + "<br />" + combatlog17 + "<br />" + combatlog18 + "<br />" + combatlog19 + "<br />" + combatlog20 + "<br />" + combatlog21 + "<br />" + combatlog22 + "<br />" + combatlog23 + "<br />" + combatlog24 + "<br />" + combatlog25 + "<br />" + combatlog26 + "<br />" + combatlog27 + "<br />" + combatlog28 + "<br />" + combatlog29 + "<br />" + combatlog30;
 }
 
 
