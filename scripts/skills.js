@@ -174,8 +174,8 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 		}
 	};
 	this.updateSkill = function() {
-		this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4) + (this.weapon.level / 10)) * (this.damageFactor));
-		this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2) + (this.weapon.level / 5)) * (this.damageFactor));
+		this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4) + (this.weapon.level / 4)) * (this.damageFactor) * (this.weapon.speed / 1000));
+		this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2) + (this.weapon.level / 2)) * (this.damageFactor) * (this.weapon.speed / 1000));
 	};
 	this.hit = function(activeskill) {
 		player.currentskill = activeskill;
