@@ -181,16 +181,21 @@ function combat(target) {
 
 function resolveSkill() {
 	makeUsable();
-	skillRoll = Math.floor((Math.random() * 100) + 1);
-	if (skillRoll > skillChance) {
-		player.currentweapon.hit();
+	if (usableSkills.length > 0) {
+		skillRoll = Math.floor((Math.random() * 100) + 1);
+		if (skillRoll > skillChance) {
+			player.currentweapon.hit();
+		}
+		else {
+			luck.gainexp();
+			skillRoll = (Math.floor(Math.random() * (((usableSkills.length) - 1) + 1)) + 0);
+			player.currentskill = usableSkills[skillRoll];
+			player.currentskill.hit();
+		}
 	}
 	else {
-		luck.gainexp();
-		skillRoll = (Math.floor(Math.random() * (((usableSkills.length) - 1) + 1)) + 0);
-		player.currentskill = usableSkills[skillRoll];
-		player.currentskill.hit();
-		}
+		player.currentweapon.hit();
+	}
 }
 	
 function resolveDamage(impact) {
