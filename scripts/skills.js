@@ -141,11 +141,11 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 				}
 				if (poisonRoll <= procChance && dPoison.isUnlocked == 1) {
 					dPoison.gainexp();
-					enemy.ispoisoned = 1;
 					if (enemy.ispoisoned == 0) {
 						logCombat("<font color=purple>You poisoned " + enemy.name + ".</font>");
 						poisonTimer = setInterval(deadlyPoison, 3000);
 					}
+					enemy.ispoisoned = 1;
 				}
 			}
 		}
