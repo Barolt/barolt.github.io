@@ -134,7 +134,7 @@ function enemyhit() {
 		if (staggerRoll <= procChance && stagger.isUnlocked == 1) {
 			stagger.gainexp();
 			enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
-			enemydamage = (stagger.level + Math.floor(strength.level / 20));
+			enemydamage -= (stagger.level + Math.floor(strength.level / 20));
 			player.currenthp = player.currenthp - enemydamage;
 			logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".(" + (stagger.level + Math.floor(strength.level / 20)) + " staggered.)</font>");
 		}
