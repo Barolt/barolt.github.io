@@ -145,6 +145,7 @@ function combat(target) {
 }
 
 function resolveSkill() {
+	makeUsable();
 	skillRoll = Math.floor((Math.random() * 100) + 1);
 	if (skillRoll > skillChance) {
 		player.currentweapon.hit();
