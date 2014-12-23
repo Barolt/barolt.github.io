@@ -53,7 +53,8 @@ var enemy = {
 	mindmg: 0,
 	maxdmg: 0,
 	blockChance: 0,
-	blockAmount: 0
+	blockAmount: 0,
+	poisoned: 0,
 }
 
 function updateAttributes() {
@@ -85,6 +86,10 @@ function updateSecondarystats() {
 	if (skillChance > 80) {
 		skillChance = 80;
 	}
+	procChance = (10 + Math.floor(luck.level / 30));
+	if (procChance > 55) {
+		procChance = 55;
+	}
 	document.getElementById("avoidance").innerHTML = player.dodgeChance + "% Dodge Chance</br>" + player.parryChance + "% Parry Chance</br>";
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	document.getElementById("player_maxhp").textContent = player.maxhp;
@@ -101,6 +106,7 @@ function load() {
 
 function enemyhit() {
 	ehitRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+	procRoll = (Math.floor((Math.random() * 1000) +10) / 10);
 	if (ehitRoll >= 100 - player.dodgeChance) {
 		logCombat("<font color=orange>You dodged " + enemy.name + "'s attack.</font>");
 		dodge.gainexp();
@@ -108,18 +114,46 @@ function enemyhit() {
 	else if (ehitRoll >= 100 - (player.dodgeChance + player.parryChance)) {
 		logCombat("<font color=orange>You parried " + enemy.name + "'s attack.</font>");
 		parry.gainexp();
+		procRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+		if (procRoll <= procChance && riposte.isUnlocked == 1) {
+			riposte.gainexp();
+			logCombat("<font color=purple>Riposte!</font>");
+			player.currentweapon.hit();
+		}
+	}
+	else if (procRoll <= procChance && phaseShift.isUnlocked == 1) {
+		phaseShift.gainexp();
+		logCombat("<font color=purple>You phase shifted " + enemy.name + "'s attack.</font>");
 	}
 	else {
 		constitution.gainexp();
-		enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
-		player.currenthp = player.currenthp - enemydamage;
-		logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".</font>");
+		//regen
+		staggerRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+		regenRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+		if (staggerRoll <= procChance && stagger.isUnlocked == 1) {
+			stagger.gainexp();
+			enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
+			enemy.damage -= (stagger.level + Math.floor(strength.level / 20));
+			player.currenthp = player.currenthp - enemydamage;
+			logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".(" + (stagger.level + Math.floor(strength.level / 20)) + " staggered.)</font>");
+		}
+		else {
+			enemydamage = (Math.floor(Math.random() * (enemy.maxdmg - enemy.mindmg + 1)) + enemy.mindmg);
+			player.currenthp = player.currenthp - enemydamage;
+			logCombat("<font color=blue>" + enemy.name + " hit you for " + enemydamage + ".</font>");
+		}
 		if (player.currenthp <= 0) {
 			player.currenthp = 0;
 			clearInterval(combatTimer);
 			clearInterval(enemyTimer);
+			clearInterval(poisonTimer);
 			logCombat("<font color=red>You have died.</font>");
 			setTimeout(currentzone.spawnMonster(currentzone), 5000);
+		}
+		else if (regenRoll <= procChance && regen.isUnlocked == 1) {
+			regen.gainexp();
+			player.currenthp += (regen.level + Math.floor(constitution.level / 20));
+			logCombat("<font color=purple>You regenerated " + (regen.level + Math.floor(constitution.level / 20)) + " hp.</font>");
 		}
 	}
 	document.getElementById("player_currenthp").textContent = player.currenthp;
@@ -165,6 +199,7 @@ function resolveDamage(impact) {
 		logCombat("<font color=red>" + enemy.name + " has died.</font>");
 		clearInterval(combatTimer);
 		clearInterval(enemyTimer);
+		clearInterval(poisonTimer);
 		currentzone.spawnMonster(currentzone);
 		document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	}

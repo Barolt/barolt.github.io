@@ -3,12 +3,16 @@ var ehitRoll = 0;
 var hitRoll = 0;
 var critRoll = 0;
 var procRoll = 0;
+var lightRoll = 0;
+var poisonRoll = 0;
 var combatTimer = 0;
 var enemyTimer = 0;
+var poisonTimer = 0;
 var stunTime = 0;
 var stunTimer = 0;
 var dodgeBuff = 0;
 var skillChance = 0;
+var procChance = 0;
 var unlockedSkills = [];
 var unlockedPassives = [];
 var usableSkills = [];
@@ -26,6 +30,7 @@ function testingPlayer() {
 	updateSecondarystats();
 	unlockSkills();
 	makeUsable();
+	equip(player.currentweapon);
 }
 
 //Function for creating attributes
@@ -88,7 +93,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 	this.exp = exp;
 	this.exptolevel = exptolevel;
 	this.hitChance = (80 + (Math.floor(this.attrib.level / 100)) + (Math.floor(this.level / 100)));
-	this.critChance = ((50 + (Math.floor(luck.level / 3)) + (Math.floor(this.level / 5))) / 10);
+	this.critChance = ((50 + (Math.floor(luck.level / 5)) + (Math.floor(this.level / 8))) / 10);
 	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4)) * (this.speed / 1000));
 	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2)) * (this.speed / 1000));
 	this.gainexp = function() {
@@ -121,11 +126,28 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 					damage = (damage * 2);
 					logCombat("<font color=green>Your " + player.currentweapon.name + " crit for " + damage + " damage.</font>");
 					resolveDamage(damage);
-					}
+				}
+				procRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+				if (procRoll <= procChance && windfury.isUnlocked == 1) {
+					windfury.gainexp();
+					logCombat("<font color=purple>Windfury!</font>");
+					player.currentweapon.hit();
+				}
+				lightRoll = (Math.floor((Math.random() * 1000) +10) / 10);
+				if (lightRoll <= procChance && sealLight.isUnlocked == 1) {
+					sealLight.gainexp();
+					logCombat("<font color=purple>Your Seal of Light healed you for " + (sealLight.level + Math.floor(wisdom.level / 20)) + ".</font>");
+					player.currenthp += (sealLight.level + Math.floor(wisdom.level / 20));
+				}
+				if (poisonRoll <= procChance && dPoison.isUnlocked == 1) {
+					dPoison.gainexp();
+					logCombat("<font color=purple>You poisoned " + enemy.name + ".</font>");
+					poisonTimer = setInterval(deadlyPoison, 3000);
 				}
 			}
-			document.getElementById("player_currenthp").textContent = player.currenthp;
-			updateAttributes();
+		}
+		document.getElementById("player_currenthp").textContent = player.currenthp;
+		updateAttributes();
 	};
 }
 
@@ -166,7 +188,12 @@ var riposte = new passive("Riposte", dexterity, 0, 15, 1, 0, 100);
 var regen = new passive("Regeneration", constitution, 0, 15, 1, 0, 100);
 var phaseShift = new passive("Phase Shift", intelligence, 0, 15, 1, 0, 100);
 var sealLight = new passive("Seal of Light", wisdom, 0, 15, 1, 0, 100);
-var dPoison = new passive("Deadlypoison", cunning, 0, 15, 1, 0, 100);
+var dPoison = new passive("Deadly Poison", cunning, 0, 15, 1, 0, 100);
+
+function deadlyPoison() {
+	enemy.currenthp -= (dPoison.level + Math.floor(cunning.level / 20));
+	logCombat("<font color=purple>" + enemy.name + " suffered " + (dPoison.level + Math.floor(cunning.level / 20)) + " poison damage.</font>");
+}
 
 //Function for creating skills
 function skill(name, attrib, weapon, weaponReq, isUnlocked, leveltoUnlock, level, exp, exptolevel, damageFactor) {
