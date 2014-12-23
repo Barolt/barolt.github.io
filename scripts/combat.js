@@ -145,6 +145,7 @@ function enemyhit() {
 		}
 		if (player.currenthp <= 0) {
 			player.currenthp = 0;
+			enemy.ispoisoned = 0;
 			clearInterval(combatTimer);
 			clearInterval(enemyTimer);
 			clearInterval(poisonTimer);
@@ -202,6 +203,7 @@ function resolveDamage(impact) {
 	enemy.currenthp = (enemy.currenthp - impact);
 	if (enemy.currenthp <= 0) {
 		enemy.currenthp = 0;
+		enemy.ispoisoned = 0;
 		logCombat("<font color=red>" + enemy.name + " has died.</font>");
 		clearInterval(combatTimer);
 		clearInterval(enemyTimer);

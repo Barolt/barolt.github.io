@@ -139,6 +139,7 @@ function wskill(name, attrib, speed, level, exp, exptolevel) {
 					logCombat("<font color=purple>Your Seal of Light healed you for " + (sealLight.level + Math.floor(wisdom.level / 20)) + ".</font>");
 					player.currenthp += (sealLight.level + Math.floor(wisdom.level / 20));
 				}
+				poisonRoll = (Math.floor((Math.random() * 1000) +10) / 10);
 				if (poisonRoll <= procChance && dPoison.isUnlocked == 1) {
 					dPoison.gainexp();
 					if (enemy.ispoisoned == 0) {
