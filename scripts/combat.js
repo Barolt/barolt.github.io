@@ -124,7 +124,7 @@ function enemyhit() {
 	}
 	else if (procRoll <= procChance && phaseShift.isUnlocked == 1) {
 		phaseShift.gainexp();
-		logCombat("<font color=purple>You phase shifted " + enemy.name + "'s attack.</font>");
+		logCombat("<font color=purple>You phased " + enemy.name + "'s attack.</font>");
 	}
 	else {
 		constitution.gainexp();
