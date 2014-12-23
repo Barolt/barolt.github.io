@@ -100,6 +100,7 @@ function load() {
 	document.getElementById("player_currenthp").textContent = player.currenthp;
 	document.getElementById("enemy_maxhp").textContent = combat.maxhp;
 	document.getElementById("enemy_currenthp").textContent = combat.currenthp;
+	document.getElementById('testing').style.display = 'none';
 	updateAttributes();
 	updateSecondarystats();
 }
