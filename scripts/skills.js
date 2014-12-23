@@ -199,6 +199,11 @@ function deadlyPoison() {
 	logCombat("<font color=purple>" + enemy.name + " suffered " + (dPoison.level + Math.floor(cunning.level / 20)) + " poison damage.</font>");
 }
 
+function clearEvasive() {
+	dodgeBuff = 0;
+	updateSecondarystats();
+}
+
 //Function for creating skills
 function skill(name, attrib, weapon, weaponReq, isUnlocked, leveltoUnlock, level, exp, exptolevel, damageFactor) {
 	this.name = name;
@@ -307,7 +312,6 @@ function skill(name, attrib, weapon, weaponReq, isUnlocked, leveltoUnlock, level
 						if (dodgeBuff > 15) {
 							dodgeBuff = 15;
 						}
-						setTimeout((dodgebuff = 0), 5000);
 						updateSecondarystats();
 						break;
 					case fireball:

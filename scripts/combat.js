@@ -149,6 +149,8 @@ function enemyhit() {
 			clearInterval(combatTimer);
 			clearInterval(enemyTimer);
 			clearInterval(poisonTimer);
+			clearEvasive();
+			updateSecondarystats();
 			logCombat("<font color=red>You have died.</font>");
 			setTimeout(currentzone.spawnMonster(currentzone), 5000);
 		}
@@ -208,6 +210,8 @@ function resolveDamage(impact) {
 		clearInterval(combatTimer);
 		clearInterval(enemyTimer);
 		clearInterval(poisonTimer);
+		clearEvasive();
+		updateSecondarystats();
 		currentzone.spawnMonster(currentzone);
 		document.getElementById("enemy_currenthp").textContent = enemy.currenthp;
 	}
