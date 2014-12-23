@@ -8,6 +8,25 @@ var enemyTimer = 0;
 var stunTime = 0;
 var stunTimer = 0;
 var dodgeBuff = 0;
+var skillChance = 0;
+var unlockedSkills = [];
+var unlockedPassives = [];
+var usableSkills = [];
+
+function testingPlayer() {
+	strength.level = 15;
+	agility.level = 15;
+	dexterity.level = 15;
+	constitution.level = 15;
+	intelligence.level = 15;
+	wisdom.level = 15;
+	cunning.level = 15;
+	luck.level = 15;
+	updateAttributes();
+	updateSecondarystats();
+	unlockSkills();
+	makeUsable();
+}
 
 //Function for creating attributes
 function attribute(name, level, exp, exptolevel) {
@@ -26,6 +45,7 @@ function attribute(name, level, exp, exptolevel) {
 			currenthp: ((constitution.level * 2) + 10);
 			updateSecondarystats();
 			updateAttributes();
+			unlockSkills();
 		}
 	}
 }
@@ -149,20 +169,21 @@ var sealLight = new passive("Seal of Light", wisdom, 0, 15, 1, 0, 100);
 var dPoison = new passive("Deadlypoison", cunning, 0, 15, 1, 0, 100);
 
 //Function for creating skills
-function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, exptolevel, damageFactor) {
+function skill(name, attrib, weapon, weaponReq, isUnlocked, leveltoUnlock, level, exp, exptolevel, damageFactor) {
 	this.name = name;
 	this.attrib = attrib;
 	this.weapon = weapon;
+	this.weaponReq = weaponReq;
 	this.isUnlocked = isUnlocked;
 	this.leveltoUnlock = leveltoUnlock;
 	this.level = level;
 	this.exp = exp;
 	this.exptolevel = exptolevel;
 	this.damageFactor = damageFactor;
-	this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4) + (this.weapon.level / 10)) * (this.damageFactor) * (this.weapon.speed / 1000));
-	this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2) + (this.weapon.level / 5)) * (this.damageFactor) * (this.weapon.speed / 1000));
+	this.minDamage = Math.floor((1 + (this.attrib.level / 8) + (this.level / 4) + (this.weapon.level / 8)) * (this.damageFactor));
+	this.maxDamage = Math.floor((2 + (this.attrib.level / 4) + (this.level / 2) + (this.weapon.level / 4)) * (this.damageFactor));
 	this.gainexp = function() {
-		this.weapon.gainexp();
+		player.currentweapon.gainexp();
 		this.attrib.gainexp();
 		this.exp += currentzone.id;
 		if (this.exp >= this.exptolevel) {
@@ -174,11 +195,10 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 		}
 	};
 	this.updateSkill = function() {
-		this.minDamage = Math.floor((1 + (this.attrib.level / 10) + (this.level / 4) + (this.weapon.level / 4)) * (this.damageFactor) * (this.weapon.speed / 1000));
-		this.maxDamage = Math.floor((2 + (this.attrib.level / 5) + (this.level / 2) + (this.weapon.level / 2)) * (this.damageFactor) * (this.weapon.speed / 1000));
+		this.minDamage = Math.floor((1 + (this.attrib.level / 8) + (this.level / 4) + (this.weapon.level / 8)) * (this.damageFactor));
+		this.maxDamage = Math.floor((2 + (this.attrib.level / 4) + (this.level / 2) + (this.weapon.level / 4)) * (this.damageFactor));
 	};
-	this.hit = function(activeskill) {
-		player.currentskill = activeskill;
+	this.hit = function() {
 		if (player.currenthp > 0) {
 			hitRoll = Math.floor((Math.random() * 100) + 1);
 			critRoll = (Math.floor((Math.random() * 1000) +10) / 10);
@@ -186,7 +206,7 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 				logCombat("Your " + player.currentskill.name + " missed.");
 			}
 			else {
-				switch(activeskill) {
+				switch(player.currentskill) {
 					case stunningBlow:
 						player.currentskill.updateSkill();
 						player.currentskill.gainexp();
@@ -204,7 +224,7 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 						clearInterval(enemyTimer);
 						stunTime = (Math.floor((player.currentskill.level / 100) + 1) * 1000);
 						stunEnemy(stunTime);
-						logCombat("<font color=purple>You stunned " + enemy.name + ".");
+						logCombat("<font color=purple>You stunned " + enemy.name + ".</font>");
 						break;
 					case doubleShot:
 						player.currentskill.updateSkill();
@@ -260,37 +280,7 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 						updateSecondarystats();
 						break;
 					case fireball:
-						player.currentskill.updateSkill();
-						player.currentskill.attrib.gainexp();
-						player.currentskill.gainexp();
-						damage = (Math.floor(Math.random() * (player.currentskill.maxDamage - player.currentskill.minDamage + 1)) + player.currentskill.minDamage);
-						if (critRoll <= (100 - player.currentweapon.critChance)) {
-							logCombat("<font color=green>Your " + player.currentskill.name + " hit for " + damage + " damage.</font>");
-							resolveDamage(damage);
-						}
-						else {
-							luck.gainexp();
-							damage = (damage * 2);
-							logCombat("<font color=green>Your " + player.currentskill.name + " crit for " + damage + " damage.</font>");
-							resolveDamage(damage);
-						}
-						break;
 					case smite:
-						player.currentskill.updateSkill();
-						player.currentskill.attrib.gainexp();
-						player.currentskill.gainexp();
-						damage = (Math.floor(Math.random() * (player.currentskill.maxDamage - player.currentskill.minDamage + 1)) + player.currentskill.minDamage);
-						if (critRoll <= (100 - player.currentweapon.critChance)) {
-							logCombat("<font color=green>Your " + player.currentskill.name + " hit for " + damage + " damage.</font>");
-							resolveDamage(damage);
-						}
-						else {
-							luck.gainexp();
-							damage = (damage * 2);
-							logCombat("<font color=green>Your " + player.currentskill.name + " crit for " + damage + " damage.</font>");
-							resolveDamage(damage);
-						}
-						break;
 					case backstab:
 						player.currentskill.updateSkill();
 						player.currentskill.attrib.gainexp();
@@ -316,9 +306,44 @@ function skill(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, expt
 }
 
 //Skills, need to be divided by attribute/progression and organized later on(name, attrib, weapon, isUnlocked, leveltoUnlock, level, exp, exptolevel, minDamageFactor, maxDamageFactor)
-var stunningBlow = new skill("Stunning Blow", strength, axe, 0, 10, 1, 0, 100, 1.2);
-var doubleShot = new skill("Double Shot", agility, bow, 0, 10, 1, 0, 100, 1.2);
-var evasiveStrike = new skill("Evasive Strike", dexterity, sword, 0, 10, 1, 0, 100, 1.2);
-var fireball = new skill("Fireball", intelligence, staff, 0, 10, 1, 0, 100, 2.5);
-var smite = new skill("Smite", wisdom, mace, 0, 10, 1, 0, 100, 1.6);
-var backstab = new skill("Backstab", cunning, dagger, 0, 10, 1, 0, 100, 1.2);
+var stunningBlow = new skill("Stunning Blow", strength, axe, 1, 0, 10, 1, 0, 100, 2);
+var doubleShot = new skill("Double Shot", agility, bow, 1, 0, 10, 1, 0, 100, 2);
+var evasiveStrike = new skill("Evasive Strike", dexterity, sword, 1, 0, 10, 1, 0, 100, 2);
+var fireball = new skill("Fireball", intelligence, staff, 0, 0, 10, 1, 0, 100, 3);
+var smite = new skill("Smite", wisdom, mace, 0, 0, 10, 1, 0, 100, 3);
+var backstab = new skill("Backstab", cunning, dagger, 1, 0, 10, 1, 0, 100, 3);
+
+var skills = [stunningBlow, doubleShot, evasiveStrike, fireball, smite, backstab];
+var passives = [stagger, windfury, riposte, regen, phaseShift, sealLight, dPoison];
+
+function checkUnlocked(obj) {
+	if (obj.attrib.level >= obj.leveltoUnlock) {
+		obj.isUnlocked = 1;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+//Function for unlocking skills and passives
+function unlockSkills() {
+	unlockedSkills.length = 0;
+	unlockedSkills = skills.filter(checkUnlocked);
+	unlockedPassives.length = 0;
+	unlockedPassives = passives.filter(checkUnlocked);
+}
+
+function checkUsable(obj) {
+	if ((obj.isUnlocked == 1) && (obj.weapon == player.currentweapon || obj.weaponReq == 0)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+function makeUsable() {
+	usableSkills.length = 0;
+	usableSkills = skills.filter(checkUsable);
+}

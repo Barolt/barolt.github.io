@@ -33,15 +33,17 @@ var combatlog30 = "";
 var hpRoll = 0;
 var skillRoll = 0;
 var enemydamage = 0;
+var activeSkill = null;
 var currentzone = forest;
 
 //Create player combat entity
 var player = {
-	maxhp: ((constitution.level * 4) + 10),
-	currenthp: ((constitution.level * 4) + 10),
+	maxhp: ((constitution.level * 4) + 60),
+	currenthp: ((constitution.level * 4) + 60),
 	dodgeChance: (Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10),
 	parryChance: (Math.floor(50 + (strength.level / 8) + (parry.level / 4)) / 10),
 	currentweapon: axe,
+	currentskill: null
 };
 
 var enemy = {
@@ -63,20 +65,14 @@ function updateAttributes() {
 	document.getElementById("wisdom").innerHTML = wisdom.level + " Wisdom </br>" + wisdom.exp + "/" + wisdom.exptolevel;
 	document.getElementById("cunning").innerHTML = cunning.level + " Cunning </br>" + cunning.exp + "/" + cunning.exptolevel;
 	document.getElementById("luck").innerHTML = luck.level + " Luck </br>" + luck.exp + "/" + luck.exptolevel;
-	document.getElementById("axe").innerHTML = axe.level + " Axe </br>" + axe.exp + "/" + axe.exptolevel;
-	document.getElementById("bow").innerHTML = bow.level + " Bow </br>" + bow.exp + "/" + bow.exptolevel;
-	document.getElementById("sword").innerHTML = sword.level + " Sword </br>" + sword.exp + "/" + sword.exptolevel;
-	document.getElementById("staff").innerHTML = staff.level + " Staff </br>" + staff.exp + "/" + staff.exptolevel;
-	document.getElementById("mace").innerHTML = mace.level + " Mace </br>" + mace.exp + "/" + mace.exptolevel;
-	document.getElementById("dagger").innerHTML = dagger.level + " Dagger </br>" + dagger.exp + "/" + dagger.exptolevel;
-	document.getElementById("dodge").innerHTML = dodge.level + " Dodge </br>" + dodge.exp + "/" + dodge.exptolevel;
-	document.getElementById("parry").innerHTML = parry.level + " Parry </br>" + parry.exp + "/" + parry.exptolevel;
+	document.getElementById("weapon").innerHTML = player.currentweapon.level + " " + player.currentweapon.name + "</br>" + player.currentweapon.exp + "/" + player.currentweapon.exptolevel;
+	document.getElementById("passives").innerHTML = dodge.level + " Dodge </br>" + dodge.exp + "/" + dodge.exptolevel + "</br>" + parry.level + " Parry </br>" + parry.exp + "/" + parry.exptolevel;
 	document.getElementById("combat_stats").innerHTML = player.currentweapon.hitChance + "% Hit Chance</br>" + player.currentweapon.critChance + "% Crit Chance</br>" + player.currentweapon.minDamage + " - " + player.currentweapon.maxDamage + " damage</br>";
 }
 
 function updateSecondarystats() {
-	player.maxhp = ((constitution.level * 4) + 10);
-	player.currenthp = ((constitution.level * 4) + 10);
+	player.maxhp = ((constitution.level * 4) + 60);
+	player.currenthp = ((constitution.level * 4) + 60);
 	player.dodgeChance = ((Math.floor(50 + (agility.level / 8) + (dodge.level / 4)) / 10) + dodgeBuff);
 	if (player.dodgeChance >= 45) {
 		player.dodgeChance = 45;
@@ -84,6 +80,10 @@ function updateSecondarystats() {
 	player.parryChance = (Math.floor(50 + (strength.level / 8) + (parry.level / 4)) / 10);
 	if (player.parryChance >= 45) {
 		player.parryChance = 45;
+	}
+	skillChance = (20 + Math.floor(luck.level / 15));
+	if (skillChance > 80) {
+		skillChance = 80;
 	}
 	document.getElementById("avoidance").innerHTML = player.dodgeChance + "% Dodge Chance</br>" + player.parryChance + "% Parry Chance</br>";
 	document.getElementById("player_currenthp").textContent = player.currenthp;
@@ -145,78 +145,16 @@ function combat(target) {
 }
 
 function resolveSkill() {
-	if (player.currentweapon == axe) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 85) {
-			axe.hit();
-		}
-		else if (axe.level >= 15) {
-			stunningBlow.hit(stunningBlow);
-		}
-		else {
-			axe.hit();
-		}
+	skillRoll = Math.floor((Math.random() * 100) + 1);
+	if (skillRoll > skillChance) {
+		player.currentweapon.hit();
 	}
-	if (player.currentweapon == bow) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 75) {
-			bow.hit();
+	else {
+		luck.gainexp();
+		skillRoll = (Math.floor(Math.random() * (((usableSkills.length) - 1) + 1)) + 0);
+		player.currentskill = usableSkills[skillRoll];
+		player.currentskill.hit();
 		}
-		else if (bow.level >= 15) {
-			doubleShot.hit(doubleShot);
-		}
-		else {
-			bow.hit();
-		}
-	}
-	if (player.currentweapon == sword) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 75) {
-			sword.hit();
-		}
-		else if (sword.level >= 15) {
-			evasiveStrike.hit(evasiveStrike);
-		}
-		else {
-			sword.hit();
-		}
-	}
-	if (player.currentweapon == staff) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 75) {
-			staff.hit();
-		}
-		else if (staff.level >= 15) {
-			fireball.hit(fireball);
-		}
-		else {
-			staff.hit();
-		}
-	}
-	if (player.currentweapon == mace) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 75) {
-			mace.hit();
-		}
-		else if (mace.level >= 15) {
-			smite.hit(smite);
-		}
-		else {
-			mace.hit();
-		}
-	}
-	if (player.currentweapon == dagger) {
-		skillRoll = Math.floor((Math.random() * 100) + 1);
-		if (skillRoll < 75) {
-			dagger.hit();
-		}
-		else if (dagger.level >= 15) {
-			backstab.hit(backstab);
-		}
-		else {
-			dagger.hit();
-		}
-	}
 }
 	
 function resolveDamage(impact) {

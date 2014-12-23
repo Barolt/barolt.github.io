@@ -7,19 +7,24 @@
 <body onload="load()" bgcolor=#9C9C9C>
 <div id="zones" class="grid grid-pad" style.display='block'>
 	<div class="col-1-12">
-		<button id="forest" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); currentzone.spawnMonster(forest); document.getElementById('zones').style.display = 'none'">Forest</button>
+		</br>
+		<button id="forest" onClick="currentzone.spawnMonster(forest); document.getElementById('zones').style.display = 'none'; document.getElementById('weaponSelect').style.display = 'none'">Forest</button>
 	</div>
 	<div class="col-1-12">
-		<button id="dforest" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); currentzone.spawnMonster(dforest); document.getElementById('zones').style.display = 'none'">Forest(2)</button>
+		</br>
+		<button id="dforest" onClick="currentzone.spawnMonster(dforest); document.getElementById('zones').style.display = 'none'; document.getElementById('weaponSelect').style.display = 'none'">Forest(2)</button>
 	</div>
 	<div class="col-1-12">
-		<button id="cave" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); currentzone.spawnMonster(cave); document.getElementById('zones').style.display = 'none'">Cave</button>
+		</br>
+		<button id="cave" onClick="currentzone.spawnMonster(cave); document.getElementById('zones').style.display = 'none'; document.getElementById('weaponSelect').style.display = 'none'">Cave</button>
 	</div>
 	<div class="col-1-12">
-		<button id="crypt" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); currentzone.spawnMonster(crypt); document.getElementById('zones').style.display = 'none'">Crypt</button>
+		</br>
+		<button id="crypt" onClick="currentzone.spawnMonster(crypt); document.getElementById('zones').style.display = 'none'; document.getElementById('weaponSelect').style.display = 'none'">Crypt</button>
 	</div>
 	<div class="col-1-12">
-		<button id="hell" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); currentzone.spawnMonster(hell); document.getElementById('zones').style.display = 'none'">Hell</button>
+		</br>
+		<button id="hell" onClick="currentzone.spawnMonster(hell); document.getElementById('zones').style.display = 'none'; document.getElementById('weaponSelect').style.display = 'none'">Hell</button>
 	</div>
 	<div class="col-1-12">
 	</div>
@@ -38,6 +43,8 @@
 </div>
 <div class="grid">
 	<div class="col-1-4">
+		</br>
+		</br>
 		<span id="strength"></span>
 		</br>
 		<span id="agility"></span>
@@ -55,45 +62,44 @@
 		<span id="luck"></span>
 	</div>
 	<div class="col-1-4">
-		<span id="axe"></span>
-		</br>
-		<span id="bow"></span>
-		</br>
-		<span id="sword"></span>
-		</br>
-		<span id="staff"></span>
-		</br>
-		<span id="mace"></span>
-		</br>
-		<span id="dagger"></span>
 		</br>
 		</br>
-		<span id="dodge"></span>
+		<span id="weapon"></span>
 		</br>
-		<span id="parry"></span>
 		</br>
-		<span id="player_skills"></span>
+		<span id="skills"></span>
+		</br>
+		</br>
+		<span id="passives"></span>
+		</br>
 	</div>
 	<div class="col-1-4">
-		<button onClick="clearInterval(combatTimer); clearInterval(enemyTimer); document.getElementById('zones').style.display = 'block'">Stop</button>
 		</br>
 		</br>
-		<button onClick="equip(axe); document.getElementById('zones').style.display='block'">Equip Axe</button>
+		<button onClick="clearInterval(combatTimer); clearInterval(enemyTimer); document.getElementById('zones').style.display = 'block'; document.getElementById('weaponSelect').style.display='block'">Stop</button>
 		</br>
 		</br>
-		<button onClick="equip(bow); document.getElementById('zones').style.display='block'">Equip Bow</button>
+		<button id="testing" onClick="clearInterval(combatTimer); clearInterval(enemyTimer); testingPlayer(); document.getElementById('testing').style.display = 'none'">Skill Testing</button>
 		</br>
 		</br>
-		<button onClick="equip(sword); document.getElementById('zones').style.display='block'">Equip Sword</button>
-		</br>
-		</br>
-		<button onClick="equip(staff); document.getElementById('zones').style.display='block'">Equip Staff</button>
-		</br>
-		</br>
-		<button onClick="equip(mace); document.getElementById('zones').style.display='block'">Equip Mace</button>
-		</br>
-		</br>
-		<button onClick="equip(dagger); document.getElementById('zones').style.display='block'">Equip Dagger</button>
+		<div id="weaponSelect">
+			<button onClick="equip(axe); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Axe</button>
+			</br>
+			</br>
+			<button onClick="equip(bow); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Bow</button>
+			</br>
+			</br>
+			<button onClick="equip(sword); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Sword</button>
+			</br>
+			</br>
+			<button onClick="equip(staff); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Staff</button>
+			</br>
+			</br>
+			<button onClick="equip(mace); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Mace</button>
+			</br>
+			</br>
+			<button onClick="equip(dagger); document.getElementById('zones').style.display='block'; document.getElementById('weaponSelect').style.display = 'none'">Equip Dagger</button>
+		</div>
 		</br>
 		</br>
 		<span id="player_currenthp"></span>/<span id="player_maxhp"></span> Player HP
@@ -108,5 +114,13 @@
 	<div class="col-1-4">
 		<span id="combat_log"></span>
 	</div>
+</div>
+</br>
+</br>
+</br>
+</br>
+</br></br>
+</br>
+</br>
 </body>
 </html>
